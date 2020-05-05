@@ -20,7 +20,6 @@ import IconButton from "@material-ui/core/IconButton";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 
-import { Redirect } from "react-router-dom";
 import Copyright from "./copyright";
 
 const useStyles = makeStyles((theme) => ({

@@ -13,13 +13,14 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
+import axios from "axios";
 
 import Copyright from "./copyright";
 
@@ -60,7 +61,6 @@ function SignUp(props) {
 		confirmPassword: "",
 		showPassword: false,
 		receiveEmail: false,
-		isLoading: false,
 	});
 
 	const handleChange = (prop) => (event) => {
@@ -69,8 +69,32 @@ function SignUp(props) {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		handleLoading();
 		console.log(values);
+		axios({
+			method: "post",
+			url: "/api/user/signup",
+			data: {
+				firstName: values.firstName,
+				lastName: values.lastName,
+				email: values.email,
+				password: values.password,
+				confirmPassword: values.confirmPassword,
+				receiveEmail: values.receiveEmail,
+			},
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((response) => {
+				alert(response.data);
+			})
+			.catch((err) => {
+				if (err.response) {
+					alert(err.response.data);
+				} else {
+					alert("Request falied");
+				}
+			});
 	};
 
 	const handleClickShowPassword = () => {
@@ -79,10 +103,6 @@ function SignUp(props) {
 
 	const handleReceiveEmail = () => {
 		setValues({ ...values, receiveEmail: !values.receiveEmail });
-	};
-
-	const handleLoading = () => {
-		setValues({ ...values, isLoading: !values.isLoading });
 	};
 
 	return (
@@ -97,9 +117,6 @@ function SignUp(props) {
 				component={Paper}
 				className={classes.outerPaper}
 			>
-				{(() => {
-					if (values.isLoading) return <LinearProgress />;
-				})()}
 				<div className={classes.innerPaper}>
 					<Avatar className={classes.avatar}>
 						<LockOutlinedIcon />
