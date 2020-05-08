@@ -4,7 +4,7 @@ const { signupValidation } = require("../public/javascript/validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-router.post("/signup", async (req, res) => {
+router.post("/sign-up", async (req, res) => {
 	//Validate user information
 	const { error } = signupValidation(req.body);
 	if (error) return res.status(406).send(error.details[0].message);
@@ -58,7 +58,8 @@ router.post("/signup", async (req, res) => {
 						.status(400)
 						.send("User with the same email already exists");
 				//Other errors
-				return res.status(400).send(err);
+				console.log(err);
+				return res.status(500).send("A database error has occured.");
 			}
 			res.cookie("emailToken", emailToken, cookieConfig);
 			res.status(201).send("User has been created.");

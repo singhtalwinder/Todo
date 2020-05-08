@@ -13,14 +13,15 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 
-import Copyright from "./copyright";
+import handleSignInSubmit from "../API-requests/handleSignInSubmit";
+
+import Copyright from "./Copyright";
 
 const useStyles = makeStyles((theme) => ({
 	outerPaper: {
@@ -56,7 +57,6 @@ function SignIn(props) {
 		password: "",
 		rememberMe: false,
 		showPassword: false,
-		isLoading: false,
 	});
 
 	const handleChange = (prop) => (event) => {
@@ -65,8 +65,9 @@ function SignIn(props) {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		handleLoading();
-		console.log(values);
+		handleSignInSubmit(values, () => {
+			props.history.push("/dashboard");
+		});
 	};
 
 	const handleClickShowPassword = () => {
@@ -75,10 +76,6 @@ function SignIn(props) {
 
 	const handleRememberMe = () => {
 		setValues({ ...values, rememberMe: !values.rememberMe });
-	};
-
-	const handleLoading = () => {
-		setValues({ ...values, isLoading: !values.isLoading });
 	};
 
 	return (
@@ -93,9 +90,6 @@ function SignIn(props) {
 				component={Paper}
 				className={classes.outerPaper}
 			>
-				{(() => {
-					if (values.isLoading) return <LinearProgress />;
-				})()}
 				<div className={classes.innerPaper}>
 					<Avatar className={classes.avatar}>
 						<LockOutlinedIcon />
@@ -181,7 +175,7 @@ function SignIn(props) {
 							<Grid item xs className={classes.link}>
 								<Link
 									onClick={() => {
-										props.history.push("/signup");
+										props.history.push("/sign-up");
 									}}
 									variant="body2"
 								>

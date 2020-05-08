@@ -20,9 +20,9 @@ import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
-import axios from "axios";
+import handleSignUpSubmit from "../API-requests/handleSignUpSubmit";
 
-import Copyright from "./copyright";
+import Copyright from "./Copyright";
 
 const useStyles = makeStyles((theme) => ({
 	outerPaper: {
@@ -67,41 +67,17 @@ function SignUp(props) {
 		setValues({ ...values, [prop]: event.target.value });
 	};
 
-	const handleSubmit = (event) => {
+	const handleClickSubmit = (event) => {
 		event.preventDefault();
-		console.log(values);
-		axios({
-			method: "post",
-			url: "/api/user/signup",
-			data: {
-				firstName: values.firstName,
-				lastName: values.lastName,
-				email: values.email,
-				password: values.password,
-				confirmPassword: values.confirmPassword,
-				receiveEmail: values.receiveEmail,
-			},
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((response) => {
-				alert(response.data);
-			})
-			.catch((err) => {
-				if (err.response) {
-					alert(err.response.data);
-				} else {
-					alert("Request falied");
-				}
-			});
+		handleSignUpSubmit(values);
+		props.history.push("/resend-confirmation-email");
 	};
 
 	const handleClickShowPassword = () => {
 		setValues({ ...values, showPassword: !values.showPassword });
 	};
 
-	const handleReceiveEmail = () => {
+	const handleClickReceiveEmail = () => {
 		setValues({ ...values, receiveEmail: !values.receiveEmail });
 	};
 
@@ -252,7 +228,7 @@ function SignUp(props) {
 							control={
 								<Checkbox
 									name="receive"
-									onChange={handleReceiveEmail}
+									onChange={handleClickReceiveEmail}
 									color="primary"
 								/>
 							}
@@ -264,7 +240,7 @@ function SignUp(props) {
 							variant="contained"
 							color="primary"
 							className={classes.submit}
-							onClick={handleSubmit}
+							onClick={handleClickSubmit}
 						>
 							Sign Up
 						</Button>

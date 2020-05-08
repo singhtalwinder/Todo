@@ -2,7 +2,7 @@ const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const con = require("../public/javascript/config");
 
-router.get("/confirm/:confirmToken", (req, res) => {
+router.get("/confirm-email/:confirmToken", (req, res) => {
 	const confirmToken = req.params.confirmToken;
 	try {
 		const verified = jwt.verify(confirmToken, process.env.CONFIRM_TOKEN_SECRET);
@@ -17,7 +17,7 @@ router.get("/confirm/:confirmToken", (req, res) => {
 			}
 		);
 	} catch (err) {
-		return res.status(403).send("Invalid token!");
+		return res.status(401).send("Invalid token!");
 	}
 });
 
