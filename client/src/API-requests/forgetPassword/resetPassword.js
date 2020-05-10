@@ -1,23 +1,20 @@
 import axios from "axios";
 
-function handleSignInSubmit(
-	{ email, password, rememberMe } = {},
-	redirectToDashboard
-) {
+function resetPassword({ password, confirmPassword } = {}, redirect) {
 	axios({
 		method: "post",
-		url: "/api/user/sign-in",
+		url: "/api/user/forget-password/reset-password",
 		data: {
-			email: email,
 			password: password,
-			rememberMe: rememberMe,
+			confirmPassword: confirmPassword,
 		},
 		headers: {
 			"Content-Type": "application/json",
 		},
 	})
 		.then((response) => {
-			redirectToDashboard();
+			alert(response.data);
+			if (redirect) redirect();
 		})
 		.catch((err) => {
 			if (err.response) {
@@ -28,4 +25,4 @@ function handleSignInSubmit(
 		});
 }
 
-export default handleSignInSubmit;
+export default resetPassword;

@@ -23,5 +23,15 @@ const signinValidation = (data) => {
 	return schema.validate(data);
 };
 
+//Reset password schema
+const resetPasswordValidation = (data) => {
+	const schema = Joi.object({
+		password: Joi.string().min(6).max(20).required(),
+		confirmPassword: Joi.string().required(),
+	});
+	return schema.validate(data);
+};
+
 module.exports.signupValidation = signupValidation;
 module.exports.signinValidation = signinValidation;
+module.exports.resetPasswordValidation = resetPasswordValidation;

@@ -8,6 +8,8 @@ import {
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import ResendConfirmationEmail from "./components/ResendConfirmationEmail";
+import EnterEmail from "./components/EnterEmail";
+import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
 						path="/resend-confirmation-email"
 						component={ResendConfirmationEmail}
 					/>
+					<Route exact path="/enter-email" component={EnterEmail} />
+					<Route exact path="/reset-password" component={ResetPassword} />
 					<ProtectedRoute exact path="/dashboard" component={Dashboard} />
 				</Switch>
 			</Router>
@@ -35,7 +39,6 @@ function App() {
 }
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-	alert(getCookie("rememberMe"));
 	if (!getCookie("rememberMe")) {
 		return <Redirect to="/" />;
 	}

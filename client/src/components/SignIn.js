@@ -19,7 +19,7 @@ import IconButton from "@material-ui/core/IconButton";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 
-import handleSignInSubmit from "../API-requests/handleSignInSubmit";
+import handleSignInSubmit from "../API-requests/signIn/handleSignInSubmit";
 
 import Copyright from "./Copyright";
 
@@ -168,7 +168,12 @@ function SignIn(props) {
 						</Button>
 						<Grid container alignItems="center" direction="column">
 							<Grid item xs className={classes.link}>
-								<Link href="#" variant="body2">
+								<Link
+									onClick={() => {
+										props.history.push("/enter-email");
+									}}
+									variant="body2"
+								>
 									{"Forgot password?"}
 								</Link>
 							</Grid>

@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core";
 
-import sendConfirmationEmail from "../API-requests/sendConfirmationEmail";
+import sendConfirmationEmail from "../API-requests/signUp/sendConfirmationEmail";
 
 const useStyles = makeStyles((theme) => ({
 	outerPaper: {

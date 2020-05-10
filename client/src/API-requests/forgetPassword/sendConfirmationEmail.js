@@ -1,15 +1,18 @@
 import axios from "axios";
 
-function handleSignOut(redirectToLogin) {
+function emailConfirmation({ email } = {}) {
 	axios({
-		method: "delete",
-		url: "/api/user/sign-out",
+		method: "post",
+		url: "/api/user/forget-password/send-confirmation-email",
+		data: {
+			email: email,
+		},
 		headers: {
 			"Content-Type": "application/json",
 		},
 	})
 		.then((response) => {
-			redirectToLogin();
+			alert(response.data);
 		})
 		.catch((err) => {
 			if (err.response) {
@@ -20,4 +23,4 @@ function handleSignOut(redirectToLogin) {
 		});
 }
 
-export default handleSignOut;
+export default emailConfirmation;

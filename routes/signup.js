@@ -31,6 +31,7 @@ router.post("/sign-up", async (req, res) => {
 	];
 
 	//Email token
+	//Allows user to request new confirmation email
 	const emailToken = jwt.sign(
 		{
 			email: req.body.email,
@@ -38,13 +39,6 @@ router.post("/sign-up", async (req, res) => {
 		process.env.EMAIL_TOKEN_SECRET,
 		{ expiresIn: "15m" }
 	);
-
-	//Cookie configuration
-	const cookieConfig = {
-		httpOnly: true,
-		secure: false,
-		signed: false,
-	};
 
 	//Insert user in database
 	con.query(
@@ -61,7 +55,9 @@ router.post("/sign-up", async (req, res) => {
 				console.log(err);
 				return res.status(500).send("A database error has occured.");
 			}
-			res.cookie("emailToken", emailToken, cookieConfig);
+			res.cookie("emailToken", emailToken, {
+				httpOnly: true,
+			});
 			res.status(201).send("User has been created.");
 		}
 	);
