@@ -69,8 +69,9 @@ function SignUp(props) {
 
 	const handleClickSubmit = (event) => {
 		event.preventDefault();
-		handleSignUpSubmit(values);
-		props.history.push("/resend-confirmation-email");
+		handleSignUpSubmit(values, () => {
+			props.history.push("/resend-confirmation-email");
+		});
 	};
 
 	const handleClickShowPassword = () => {

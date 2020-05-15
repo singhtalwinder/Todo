@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const con = require("../public/javascript/config");
-const verifyAuthToken = require("../public/javascript/verifyAuthToken");
+const con = require("../../public/javascript/config");
+const verifyAuthToken = require("../../public/javascript/verifyAuthToken");
 
 router.delete("/sign-out", verifyAuthToken, (req, res) => {
 	const refreshToken = req.cookies.refreshToken;

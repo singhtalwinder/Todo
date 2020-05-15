@@ -21,13 +21,20 @@ import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import ListIcon from "@material-ui/icons/List";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import Copyright from "./Copyright";
+import { LinearProgress } from "@material-ui/core";
 
-import refreshAuthToken from "../API-requests/signIn/refreshAuthToken";
 import handleSignOut from "../API-requests/signOut/handleSignOut";
+import refreshAuthToken from "../API-requests/signIn/refreshAuthToken";
+import fetchUserProfileInformation from "../API-requests/user/fetchUserProfileInformation";
+
+import Copyright from "./Copyright";
+import MyProfile from "./MyProfile";
+import FinishedTodos from "./FinishedTodos";
+import PendingTodos from "./PendingTodos";
+import AddTodos from "./AddTodos";
 
 const drawerWidth = 240;
-let refreshAuthTokenId = null;
+let refreshAuthTokenId = setInterval(refreshAuthToken, 6000);
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -109,37 +116,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard(props) {
-	if (refreshAuthTokenId) clearInterval(refreshAuthTokenId);
-	refreshAuthTokenId = setInterval(refreshAuthToken, 4000);
-
 	const classes = useStyles();
-	const [values, setValues] = React.useState({
-		open: true,
-		component: "My Profile",
+
+	const [openDrawer, handleDrawer] = React.useState(true);
+	const [component, setComponent] = React.useState("My Profile");
+	const [profileInformation, setProfileInformation] = React.useState(() => {
+		let info = {
+			firstName: "",
+			lastName: "",
+			email: "",
+			receiveEmail: "",
+		};
+		fetchUserProfileInformation((data) => {
+			info.firstName = data.firstName;
+			info.lastName = data.lastName;
+			info.email = data.email;
+			info.receiveEmail = data.receiveEmail;
+		});
+		return info;
 	});
 
 	const handleDrawerOpen = () => {
-		setValues({ ...values, open: true });
+		handleDrawer(true);
 	};
 
 	const handleDrawerClose = () => {
-		setValues({ ...values, open: false });
+		handleDrawer(false);
 	};
 
 	const handleClickMyProfile = () => {
-		setValues({ ...values, component: "My Profile" });
+		setComponent("My Profile");
 	};
 
 	const handleClickFinishedTodos = () => {
-		setValues({ ...values, component: "Finished Todos" });
+		setComponent("Finished Todos");
 	};
 
 	const handleClickPendingTodos = () => {
-		setValues({ ...values, component: "Pending Todos" });
+		setComponent("Pending Todos");
 	};
 
 	const handleClickAddTodos = () => {
-		setValues({ ...values, component: "Add Todos" });
+		setComponent("Add Todos");
 	};
 
 	const handleClickSignOut = () => {
@@ -154,7 +172,7 @@ export default function Dashboard(props) {
 			<CssBaseline />
 			<AppBar
 				position="absolute"
-				className={clsx(classes.appBar, values.open && classes.appBarShift)}
+				className={clsx(classes.appBar, openDrawer && classes.appBarShift)}
 			>
 				<Toolbar className={classes.toolbar}>
 					<IconButton
@@ -164,7 +182,7 @@ export default function Dashboard(props) {
 						onClick={handleDrawerOpen}
 						className={clsx(
 							classes.menuButton,
-							values.open && classes.menuButtonHidden
+							openDrawer && classes.menuButtonHidden
 						)}
 					>
 						<MenuIcon />
@@ -176,7 +194,7 @@ export default function Dashboard(props) {
 						noWrap
 						className={classes.title}
 					>
-						{values.component}
+						{component}
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -185,10 +203,10 @@ export default function Dashboard(props) {
 				classes={{
 					paper: clsx(
 						classes.drawerPaper,
-						!values.open && classes.drawerPaperClose
+						!openDrawer && classes.drawerPaperClose
 					),
 				}}
-				open={values.open}
+				open={openDrawer}
 			>
 				<div className={classes.toolbarIcon}>
 					<IconButton onClick={handleDrawerClose}>
@@ -235,7 +253,21 @@ export default function Dashboard(props) {
 				<div className={classes.appBarSpacer} />
 				<Container maxWidth="lg" className={classes.container}>
 					{(() => {
-						switch (2) {
+						switch (component) {
+							case "My Profile":
+								return <MyProfile profileInformation={profileInformation} />;
+
+							case "Finished Todos":
+								return <FinishedTodos />;
+
+							case "Pending Todos":
+								return <PendingTodos />;
+
+							case "Add Todos":
+								return <AddTodos />;
+
+							default:
+								return <MyProfile />;
 						}
 					})()}
 					<Box pt={4}>

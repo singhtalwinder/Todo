@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const con = require("../public/javascript/config");
-const { signupValidation } = require("../public/javascript/validation");
+const con = require("../../public/javascript/config");
+const { signupValidation } = require("../../public/javascript/validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const con = require("../public/javascript/config");
+const con = require("../../public/javascript/config");
 const jwt = require("jsonwebtoken");
 
 const verifyRefreshToken = (req, res, next) => {
@@ -10,7 +10,7 @@ const verifyRefreshToken = (req, res, next) => {
 		req.user = verified;
 		next();
 	} catch (err) {
-		return res.status(401).send("Invalid token!");
+		return res.status(401).send("Invalid refresh token!");
 	}
 };
 

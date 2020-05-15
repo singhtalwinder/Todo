@@ -11,13 +11,14 @@ import ResendConfirmationEmail from "./components/ResendConfirmationEmail";
 import EnterEmail from "./components/EnterEmail";
 import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
-
+import refreshAuthToken from "./API-requests/signIn/refreshAuthToken";
 function App() {
 	return (
 		<React.Fragment>
 			<Router>
 				{(() => {
 					if (getCookie("rememberMe") === "yes") {
+						refreshAuthToken();
 						return <Redirect to="/dashboard" />;
 					}
 				})()}

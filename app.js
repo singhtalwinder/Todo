@@ -9,12 +9,13 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/user", require("./routes/signIn"));
-app.use("/api/user", require("./routes/signUp"));
-app.use("/api/user", require("./routes/signOut"));
-app.use("/api/user", require("./routes/refreshAuthToken"));
-app.use("/api/user", require("./routes/sendConfirmationEmail"));
-app.use("/api/user", require("./routes/confirmEmail"));
+app.use("/api/user", require("./routes/signIn/signIn"));
+app.use("/api/user", require("./routes/signUp/signUp"));
+app.use("/api/user", require("./routes/signOut/signOut"));
+app.use("/api/user", require("./routes/signIn/refreshAuthToken"));
+app.use("/api/user", require("./routes/signUp/sendConfirmationEmail"));
+app.use("/api/user", require("./routes/signUp/confirmEmail"));
+app.use("/api/user", require("./routes/user/userInformation"));
 
 app.use(
 	"/api/user/forget-password",

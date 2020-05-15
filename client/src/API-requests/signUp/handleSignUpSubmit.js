@@ -2,14 +2,10 @@ import axios from "axios";
 
 import sendConfirmationEmail from "./sendConfirmationEmail";
 
-function handleSignUpSubmit({
-	firstName,
-	lastName,
-	email,
-	password,
-	confirmPassword,
-	receiveEmail,
-} = {}) {
+function handleSignUpSubmit(
+	{ firstName, lastName, email, password, confirmPassword, receiveEmail } = {},
+	redirect
+) {
 	axios({
 		method: "post",
 		url: "/api/user/sign-up",
@@ -27,6 +23,7 @@ function handleSignUpSubmit({
 	})
 		.then((response) => {
 			sendConfirmationEmail();
+			if (redirect) redirect();
 		})
 		.catch((err) => {
 			if (err.response) {

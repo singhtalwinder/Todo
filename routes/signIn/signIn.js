@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const con = require("../public/javascript/config");
-const { signinValidation } = require("../public/javascript/validation");
+const con = require("../../public/javascript/config");
+const { signinValidation } = require("../../public/javascript/validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -41,7 +41,7 @@ router.post("/sign-in", (req, res) => {
 					userId: result[0].userId,
 				},
 				process.env.AUTH_TOKEN_SECRET,
-				{ expiresIn: "6s" }
+				{ expiresIn: "15m" }
 			);
 
 			//Create refresh token

@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
-const transporter = require("../public/javascript/transpoter");
+const transporter = require("../../public/javascript/transpoter");
 
 const verifyEmailToken = (req, res, next) => {
 	const emailToken = req.cookies.emailToken;

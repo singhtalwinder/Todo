@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function handleSignInSubmit({ email, password, rememberMe } = {}, redirect) {
+function handleSignInSubmit({ email, password, rememberMe } = {}, callBack) {
 	axios({
 		method: "post",
 		url: "/api/user/sign-in",
@@ -14,7 +14,7 @@ function handleSignInSubmit({ email, password, rememberMe } = {}, redirect) {
 		},
 	})
 		.then((response) => {
-			redirect();
+			if (callBack) callBack();
 		})
 		.catch((err) => {
 			if (err.response) {

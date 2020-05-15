@@ -1,23 +1,23 @@
 import axios from "axios";
 
-function refreshAuthToken() {
+function fetchUserProfileInformation(callback) {
 	axios({
 		method: "get",
-		url: "/api/user/refresh-auth-token",
+		url: "/api/user/user-information",
 		headers: {
 			"Content-Type": "application/json",
 		},
 	})
 		.then((response) => {
-			//alert("refreshed");
+			if (callback) callback(response.data);
 		})
 		.catch((err) => {
 			if (err.response) {
-				//alert(err.response.data);
+				alert(err.response.data);
 			} else {
 				alert("Request falied");
 			}
 		});
 }
 
-export default refreshAuthToken;
+export default fetchUserProfileInformation;

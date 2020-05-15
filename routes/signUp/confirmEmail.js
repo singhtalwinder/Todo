@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
-const con = require("../public/javascript/config");
+const con = require("../../public/javascript/config");
 
 router.get("/confirm-email/:confirmToken", (req, res) => {
 	const confirmToken = req.params.confirmToken;
