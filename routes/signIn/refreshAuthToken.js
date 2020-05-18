@@ -42,7 +42,7 @@ router.get(
 				userId: req.user.userId,
 			},
 			process.env.AUTH_TOKEN_SECRET,
-			{ expiresIn: "1m" }
+			{ expiresIn: "15m" }
 		);
 
 		const cookieConfig = {

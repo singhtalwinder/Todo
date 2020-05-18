@@ -15,7 +15,11 @@ app.use("/api/user", require("./routes/signOut/signOut"));
 app.use("/api/user", require("./routes/signIn/refreshAuthToken"));
 app.use("/api/user", require("./routes/signUp/sendConfirmationEmail"));
 app.use("/api/user", require("./routes/signUp/confirmEmail"));
+
 app.use("/api/user", require("./routes/user/userInformation"));
+app.use("/api/user", require("./routes/user/finishedTodos"));
+app.use("/api/user", require("./routes/user/pendingTodos"));
+app.use("/api/user", require("./routes/user/addTodos"));
 
 app.use(
 	"/api/user/forget-password",

@@ -21,11 +21,9 @@ import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import ListIcon from "@material-ui/icons/List";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import { LinearProgress } from "@material-ui/core";
 
 import handleSignOut from "../API-requests/signOut/handleSignOut";
 import refreshAuthToken from "../API-requests/signIn/refreshAuthToken";
-import fetchUserProfileInformation from "../API-requests/user/fetchUserProfileInformation";
 
 import Copyright from "./Copyright";
 import MyProfile from "./MyProfile";
@@ -119,22 +117,7 @@ export default function Dashboard(props) {
 	const classes = useStyles();
 
 	const [openDrawer, handleDrawer] = React.useState(true);
-	const [component, setComponent] = React.useState("My Profile");
-	const [profileInformation, setProfileInformation] = React.useState(() => {
-		let info = {
-			firstName: "",
-			lastName: "",
-			email: "",
-			receiveEmail: "",
-		};
-		fetchUserProfileInformation((data) => {
-			info.firstName = data.firstName;
-			info.lastName = data.lastName;
-			info.email = data.email;
-			info.receiveEmail = data.receiveEmail;
-		});
-		return info;
-	});
+	const [component, setComponent] = React.useState("Add Todos");
 
 	const handleDrawerOpen = () => {
 		handleDrawer(true);
@@ -255,7 +238,7 @@ export default function Dashboard(props) {
 					{(() => {
 						switch (component) {
 							case "My Profile":
-								return <MyProfile profileInformation={profileInformation} />;
+								return <MyProfile />;
 
 							case "Finished Todos":
 								return <FinishedTodos />;
@@ -267,7 +250,7 @@ export default function Dashboard(props) {
 								return <AddTodos />;
 
 							default:
-								return <MyProfile />;
+								return <AddTodos />;
 						}
 					})()}
 					<Box pt={4}>

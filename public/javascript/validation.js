@@ -1,4 +1,4 @@
-const Joi = require("@hapi/joi");
+const Joi = require("@hapi/joi").extend(require("@hapi/joi-date"));
 
 //Validation schema for signup information
 const signupValidation = (data) => {
@@ -32,6 +32,16 @@ const resetPasswordValidation = (data) => {
 	return schema.validate(data);
 };
 
+//Add Todos schema
+const addTodosValidation = (data) => {
+	const schema = Joi.object({
+		dateTime: Joi.date().required().min("now"),
+		description: Joi.string().min(2).max(25).required(),
+	});
+	return schema.validate(data);
+};
+
 module.exports.signupValidation = signupValidation;
 module.exports.signinValidation = signinValidation;
 module.exports.resetPasswordValidation = resetPasswordValidation;
+module.exports.addTodosValidation = addTodosValidation;

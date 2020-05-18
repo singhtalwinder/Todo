@@ -6,8 +6,31 @@ import TableContainer from "@material-ui/core/TableContainer";
 import Grid from "@material-ui/core/Grid";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
-function MyProfile(props) {
+import fetchUserProfileInformation from "../API-requests/user/fetchUserProfileInformation";
+
+function MyProfile() {
+	const [Loading, handleLoading] = React.useState(true);
+	const [profileInformation, setProfileInformation] = React.useState(() => {
+		let info = {
+			firstName: "",
+			lastName: "",
+			email: "",
+			receiveEmail: "",
+		};
+		fetchUserProfileInformation((data) => {
+			info.firstName = data.firstName;
+			info.lastName = data.lastName;
+			info.email = data.email;
+			info.receiveEmail = data.receiveEmail;
+			handleLoading(false);
+		});
+		return info;
+	});
+
+	if (Loading) return <LinearProgress />;
+
 	return (
 		<Grid container justify="center">
 			<Grid item xs={12} sm={12} md={12} lg={6} component={Paper}>
@@ -20,7 +43,7 @@ function MyProfile(props) {
 									First Name
 								</TableCell>
 								<TableCell align="left">
-									{props.profileInformation.firstName}
+									{profileInformation.firstName}
 								</TableCell>
 							</TableRow>
 							<TableRow>
@@ -28,16 +51,14 @@ function MyProfile(props) {
 									Last Name
 								</TableCell>
 								<TableCell align="left">
-									{props.profileInformation.lastName}
+									{profileInformation.lastName}
 								</TableCell>
 							</TableRow>
 							<TableRow>
 								<TableCell component="th" scope="row">
 									Email
 								</TableCell>
-								<TableCell align="left">
-									{props.profileInformation.email}
-								</TableCell>
+								<TableCell align="left">{profileInformation.email}</TableCell>
 							</TableRow>
 							<TableRow>
 								<TableCell component="th" scope="row">
@@ -45,7 +66,7 @@ function MyProfile(props) {
 								</TableCell>
 								<TableCell align="left">
 									{(() => {
-										if (props.profileInformation.receiveEmail) {
+										if (profileInformation.receiveEmail) {
 											return "Yes";
 										} else {
 											return "No";
