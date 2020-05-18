@@ -1,7 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-
 require("dotenv").config();
+const sendReminder = require("./public/javascript/sendReminder");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -34,4 +34,7 @@ app.use(
 	require("./routes/forgetPassword/resetPassword")
 );
 
-app.listen(PORT, () => console.log(`Running in PORT: ${PORT}`));
+setInterval(sendReminder, 60000);
+app.listen(PORT, () => {
+	console.log(`Running at PORT: ${PORT}`);
+});

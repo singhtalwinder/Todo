@@ -41,7 +41,16 @@ const addTodosValidation = (data) => {
 	return schema.validate(data);
 };
 
+//Send Reminder Schema
+const sendReminderValidation = (data) => {
+	const schema = Joi.object({
+		dateTime: Joi.date().required().min("now"),
+	});
+	return schema.validate(data);
+};
+
 module.exports.signupValidation = signupValidation;
 module.exports.signinValidation = signinValidation;
 module.exports.resetPasswordValidation = resetPasswordValidation;
 module.exports.addTodosValidation = addTodosValidation;
+module.exports.sendReminderValidation = sendReminderValidation;

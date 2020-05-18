@@ -4,7 +4,7 @@ const con = require("../../public/javascript/config");
 
 router.get("/finished-todos", verifyAuthToken, (req, res) => {
 	con.query(
-		`SELECT *FROM finishedTodo WHERE userId=${req.user.userId}`,
+		`SELECT *FROM finishedTodo WHERE userId=${req.user.userId} ORDER BY dateTime ASC`,
 		(err, result) => {
 			if (err) return res.status(500).send("A database error has ocurred");
 			if (!result.length) return res.status(404).send("No Todo found!");

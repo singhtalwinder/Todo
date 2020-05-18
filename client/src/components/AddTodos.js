@@ -29,14 +29,15 @@ function AddTodos() {
 	};
 
 	const handleSubmit = () => {
-		addTodos(timeStamp(), description);
+		console.log(selectedDateTime);
+		addTodos(timeStamp(selectedDateTime), description);
 	};
 
 	const handleDateChange = (date) => {
 		setselectedDateTime(date);
 	};
 
-	const timeStamp = () => {
+	const timeStamp = (dateTime) => {
 		const monthNumber = new Map([
 			["Jan", "01"],
 			["Feb", "02"],
@@ -51,7 +52,7 @@ function AddTodos() {
 			["Nov", "11"],
 			["Dec", "12"],
 		]);
-		const fields = selectedDateTime.toString().split(" ");
+		const fields = dateTime.toString().split(" ");
 		let timeStamp =
 			fields[3] +
 			"-" + //yyyy-
@@ -62,6 +63,7 @@ function AddTodos() {
 			fields[4]; //yyyy-mm-dd hh:mm:ss
 		return timeStamp;
 	};
+
 	return (
 		<React.Fragment>
 			<Grid container justify="center">
