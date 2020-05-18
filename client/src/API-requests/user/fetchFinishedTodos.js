@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function fetchFinishedTodos(callback) {
+function fetchFinishedTodos(callback, errCallback) {
 	axios({
 		method: "get",
 		url: "/api/user/finished-todos",
@@ -13,7 +13,8 @@ function fetchFinishedTodos(callback) {
 		})
 		.catch((err) => {
 			if (err.response) {
-				alert(err.response.data);
+				if (errCallback) errCallback();
+				else alert(err.response.data);
 			} else {
 				alert("Request falied");
 			}

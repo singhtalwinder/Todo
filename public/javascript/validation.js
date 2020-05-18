@@ -1,4 +1,5 @@
 const Joi = require("@hapi/joi").extend(require("@hapi/joi-date"));
+const timeStamp = require("./timeStamp");
 
 //Validation schema for signup information
 const signupValidation = (data) => {
@@ -44,7 +45,17 @@ const addTodosValidation = (data) => {
 //Send Reminder Schema
 const sendReminderValidation = (data) => {
 	const schema = Joi.object({
-		dateTime: Joi.date().required().min("now"),
+		dateTime: Joi.date().required().max("now"),
+	});
+	return schema.validate(data);
+};
+
+//Delete Not Verified User Schema
+const deleteNotVerifiedUserValidation = (data) => {
+	let maxDate = Date(new Date().getTime() - 15 * 60000);
+	maxDate = timeStamp(maxDate);
+	const schema = Joi.object({
+		reg_date: Joi.date().required().max(maxDate),
 	});
 	return schema.validate(data);
 };
@@ -54,3 +65,4 @@ module.exports.signinValidation = signinValidation;
 module.exports.resetPasswordValidation = resetPasswordValidation;
 module.exports.addTodosValidation = addTodosValidation;
 module.exports.sendReminderValidation = sendReminderValidation;
+module.exports.deleteNotVerifiedUserValidation = deleteNotVerifiedUserValidation;

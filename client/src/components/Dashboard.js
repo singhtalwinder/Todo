@@ -32,7 +32,7 @@ import PendingTodos from "./PendingTodos";
 import AddTodos from "./AddTodos";
 
 const drawerWidth = 240;
-let refreshAuthTokenId = setInterval(refreshAuthToken, 6000);
+let refreshAuthTokenId = setInterval(refreshAuthToken, 14 * 60000);
 
 const useStyles = makeStyles((theme) => ({
 	root: {

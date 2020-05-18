@@ -8,21 +8,34 @@ import Grid from "@material-ui/core/Grid";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import LinearProgress from "@material-ui/core/LinearProgress";
-
+import Typography from "@material-ui/core/Typography";
 import fetchPendingTodos from "../API-requests/user/fetchPendingTodos";
 
 function PendingTodos() {
 	const [Loading, handleLoading] = React.useState(true);
+	const [noTodos, handleNoTodos] = React.useState(false);
 	const [pendingTodos, handlePendingTodos] = React.useState(() => {
 		let pendingTodos = {};
-		fetchPendingTodos((data) => {
-			pendingTodos.data = data;
-			handleLoading(false);
-		});
+		fetchPendingTodos(
+			(data) => {
+				pendingTodos.data = data;
+				handleLoading(false);
+			},
+			() => {
+				handleNoTodos(true);
+				handleLoading(false);
+			}
+		);
 		return pendingTodos;
 	});
 
 	if (Loading) return <LinearProgress />;
+	if (noTodos)
+		return (
+			<Grid container justify="center">
+				<Typography variant="h5">Nothing here!</Typography>
+			</Grid>
+		);
 
 	return (
 		<Grid container justify="center">

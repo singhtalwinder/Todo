@@ -8,18 +8,15 @@ const sendReminder = () => {
 		if (err) throw err;
 		for (let data of result) {
 			const { error } = sendReminderValidation({ dateTime: data.dateTime });
-			if (error) {
-				con.query(
-					`SELECT email FROM user WHERE userId=${data.userId}`,
-					(err, result) => {
-						if (err) throw err;
-						sendMail(result[0].email, data.description);
-						moveToFinishedTodos(data.userId, timeStamp(data.reg_date));
-					}
-				);
-			} else {
-				break;
-			}
+			if (error) break;
+			con.query(
+				`SELECT email FROM user WHERE userId=${data.userId}`,
+				(err, result) => {
+					if (err) throw err;
+					sendMail(result[0].email, data.description);
+					moveToFinishedTodos(data.userId, timeStamp(data.reg_date));
+				}
+			);
 		}
 	});
 };

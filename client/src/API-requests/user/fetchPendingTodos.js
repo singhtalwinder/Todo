@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function fetchPendingTodos(callback) {
+function fetchPendingTodos(callback, errCallback) {
 	axios({
 		method: "get",
 		url: "/api/user/pending-todos",
@@ -13,7 +13,8 @@ function fetchPendingTodos(callback) {
 		})
 		.catch((err) => {
 			if (err.response) {
-				alert(err.response.data);
+				if (errCallback) errCallback();
+				else alert(err.response.data);
 			} else {
 				alert("Request falied");
 			}
